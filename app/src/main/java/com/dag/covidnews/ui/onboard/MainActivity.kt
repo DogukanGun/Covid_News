@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.dag.covidnews.R
 import com.dag.covidnews.base.CovidActivity
 import com.dag.covidnews.databinding.ActivityMainBinding
+import com.dag.covidnews.ui.onboard.story.StoryFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class MainActivity : CovidActivity<MainActivityVM,ActivityMainBinding>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel?.getAllCountries()
+        addFragment(StoryFragment())
     }
 
 

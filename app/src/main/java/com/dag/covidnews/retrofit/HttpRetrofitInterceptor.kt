@@ -20,7 +20,7 @@ class HttpRetrofitInterceptor:Interceptor {
         request.body?.writeTo(buffer)
         return request.newBuilder()
             .header("X-RapidAPI-Host","covid-19-data.p.rapidapi.com")
-            .header("X-RapidAPI-Key","b9739f67d9msh90e038c9e8ff0c3p1e239fjsne39813ae8648")
+            .header("X-RapidAPI-Key","")
             .method(request.method,request.body)
             .build()
 

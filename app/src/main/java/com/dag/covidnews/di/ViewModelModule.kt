@@ -1,8 +1,6 @@
 package com.dag.covidnews.di
 
-import com.dag.covidnews.base.CovidVM
-import com.dag.covidnews.network.ApiService
-import com.dag.covidnews.network.ApiSource
+import com.dag.covidnews.ui.homepage.HomepageActivityVM
 import com.dag.covidnews.ui.onboard.MainActivityVM
 import dagger.Module
 import dagger.Provides
@@ -15,5 +13,9 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 object ViewModelModule {
 
     @Provides
-    fun provideMainActivityVM(apiSource: ApiSource) = MainActivityVM(apiSource)
+    fun provideMainActivityVM() = MainActivityVM()
+
+    @Provides
+    fun homepageActivityVM() = HomepageActivityVM()
+
 }
