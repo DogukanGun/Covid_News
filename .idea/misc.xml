@@ -5,15 +5,33 @@
       <map>
         <entry key="app/src/main/res/drawable-v24/covidonboard.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/drawable/bg_button_background.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/drawable/bg_radio_button_left_button.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/drawable/bg_radio_button_left_button_not_selected.xml" value="0.301025641025641" />
+        <entry key="app/src/main/res/drawable/bg_radio_button_left_button_selected.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/drawable/bg_radio_button_not_selected.xml" value="0.301025641025641" />
+        <entry key="app/src/main/res/drawable/bg_radio_button_right_button.xml" value="0.301025641025641" />
+        <entry key="app/src/main/res/drawable/bg_radio_group_not_selected.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/drawable/bg_radio_group_selected.xml" value="0.301025641025641" />
+        <entry key="app/src/main/res/drawable/divider.xml" value="0.301025641025641" />
+        <entry key="app/src/main/res/drawable/ic_baseline_cancel.xml" value="0.30625" />
+        <entry key="app/src/main/res/drawable/ic_baseline_settings.xml" value="0.30625" />
         <entry key="app/src/main/res/drawable/ri_recyclerview_item_background.xml" value="0.30625" />
-        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.1546875" />
+        <entry key="app/src/main/res/layout/action_bar.xml" value="0.35520422031278404" />
+        <entry key="app/src/main/res/layout/activity_homepage.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1721014492753623" />
+        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.14673913043478262" />
+        <entry key="app/src/main/res/layout/chip.xml" value="0.11497286243930353" />
+        <entry key="app/src/main/res/layout/custom_chip.xml" value="1.709756217249485" />
         <entry key="app/src/main/res/layout/fragment_country.xml" value="0.1546875" />
         <entry key="app/src/main/res/layout/fragment_homapage.xml" value="0.1546875" />
         <entry key="app/src/main/res/layout/fragment_homepage.xml" value="0.1546875" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.19324555074864627" />
         <entry key="app/src/main/res/layout/fragment_story.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_view_pager.xml" value="0.1546875" />
+        <entry key="app/src/main/res/layout/fragment_world_status.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_country.xml" value="0.30652662099767874" />
+        <entry key="app/src/main/res/menu/bottom_menu.xml" value="0.1546875" />
+        <entry key="app/src/main/res/xml/settings.xml" value="0.46088193456614507" />
       </map>
     </option>
   </component>

@@ -1,12 +1,16 @@
 package com.dag.covidnews.ui.onboard.country
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.Preference
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dag.covidnews.R
+import com.dag.covidnews.base.AppConstant
 import com.dag.covidnews.base.CovidFragment
 import com.dag.covidnews.base.CovidState
 import com.dag.covidnews.databinding.FragmentCountryBinding
@@ -60,6 +64,10 @@ class CountryFragment : CovidFragment<CountryVM,FragmentCountryBinding>() {
                 val countryIdList = Country.values().filter { country ->
                     list.map { it.name?.lowercase() }.contains(country.name.lowercase())
                 }.map { it.id }
+                val prefs = context?.getSharedPreferences(AppConstant.PREFS_FILE_NAME,Context.MODE_PRIVATE)
+                val editor = prefs?.edit()
+                editor?.putString(AppConstant.PREFS_COUNTRY_KEY,countryIdList.joinToString())
+                editor?.apply()
                 startActivityWithValue(HomepageActivity::class.java,countryIdList.joinToString(),
                     IntentParameter.ARRAY)
             }

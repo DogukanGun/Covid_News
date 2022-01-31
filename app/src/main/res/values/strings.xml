@@ -1,6 +1,32 @@
 <resources>
     <string name="app_name">Covid News</string>
     <string name="nextButton">Next</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="deaths">Deaths</string>
+    <string name="recovered">Recovered</string>
+    <string name="home">Home</string>
+    <string name="earth">World</string>
+    <string name="countries">Countries</string>
+    <string name="okay">OK</string>
+
+    <string name="turkish">Turkish</string>
+    <string name="english">English</string>
+
+    <string name="save">Save</string>
+
+
+    <string name="turkey">TURKEY</string>
+    <string name="usa">USA</string>
+    <string name="germany">GERMANY</string>
+    <string name="france">FRANCE</string>
+    <string name="italy">ITALY</string>
+    <string name="norway">NORWAY</string>
+    <string name="sweden">SWEDEN</string>
+    <string name="spain">SPAIN</string>
+
+    <string name="app_language">App Language</string>
+    <string name="app_countries">Countries</string>
+
+
+
 </resources>

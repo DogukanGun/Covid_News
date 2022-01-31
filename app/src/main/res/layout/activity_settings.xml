@@ -5,35 +5,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.homepage.HomepageActivity">
-
+    tools:context=".ui.settingspage.SettingsActivity">
     <include
         android:id="@+id/action_bar"
         layout="@layout/action_bar"
         />
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/button_color"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        android:isScrollContainer="true"
-        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+        app:layout_constraintTop_toBottomOf="@+id/action_bar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

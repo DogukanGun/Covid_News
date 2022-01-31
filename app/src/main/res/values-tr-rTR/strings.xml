@@ -2,4 +2,31 @@
 <resources>
     <string name="app_name">Kovid Haberleri</string>
     <string name="nextButton">Devam</string>
+    <string name="confirmed">Hasta Sayısı</string>
+    <string name="deaths">Ölü Sayısı</string>
+    <string name="recovered">İyileşen</string>
+    <string name="home">Ana Sayfa</string>
+    <string name="earth">Bütün Dünya</string>
+    <string name="countries">Ülkeler</string>
+    <string name="okay">Tamam</string>
+
+    <string name="turkish">Türkçe</string>
+    <string name="english">İngilizce</string>
+
+    <string name="save">Kaydet</string>
+
+    <string name="turkey">TÜRKİYE</string>
+    <string name="usa">AMERİKA</string>
+    <string name="germany">ALMANYA</string>
+    <string name="france">FRANSA</string>
+    <string name="italy">İTALYA</string>
+    <string name="norway">NORVEÇ</string>
+    <string name="sweden">İSVEÇ</string>
+    <string name="spain">İSPANYA</string>
+
+    <string name="app_language">Uygulama Dili</string>
+    <string name="app_countries">Kayıtlı Ülkeler</string>
+
+
+
 </resources>

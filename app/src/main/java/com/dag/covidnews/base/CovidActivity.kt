@@ -2,13 +2,18 @@ package com.dag.covidnews.base
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageButton
+import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.preference.PreferenceFragmentCompat
 import com.dag.covidnews.BR
 import com.dag.covidnews.R
 import com.dag.covidnews.entity.intent.IntentParameter
+import com.dag.covidnews.ui.settingspage.SettingsActivity
 
 
 abstract class CovidActivity<VM:CovidVM,DB:ViewDataBinding>: AppCompatActivity() {
@@ -17,14 +22,17 @@ abstract class CovidActivity<VM:CovidVM,DB:ViewDataBinding>: AppCompatActivity()
 
     abstract fun getLayoutId():Int
 
-    fun getContainer() = R.id.container
+    open fun hasBackButton() = false
+
+    open fun hasSettingsButton() = false
+
+    private fun getContainer() = R.id.container
 
     protected var viewModel:VM? = null
     protected var binding:DB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel = getVM()
         binding = DataBindingUtil.setContentView(this,getLayoutId())
         binding!!.setVariable(BR.viewModel,viewModel)
@@ -37,15 +45,52 @@ abstract class CovidActivity<VM:CovidVM,DB:ViewDataBinding>: AppCompatActivity()
         }
     }
 
+    private fun createAppBar(cancelButtonState:Boolean,settingButtonState:Boolean){
+        findViewById<Toolbar?>(R.id.action_bar)?.let {
+            val cancelButton = findViewById<ImageButton>(R.id.cancelIBTN)
+            val settingButton = findViewById<ImageButton>(R.id.settingIMB)
+            if (!cancelButtonState){
+                cancelButton.visibility = View.INVISIBLE
+            }else{
+                cancelButton.visibility = View.VISIBLE
+                cancelButton.setOnClickListener(cancelButtonListener)
+            }
+            if (!settingButtonState){
+                settingButton.visibility = View.INVISIBLE
+            }else{
+                settingButton.visibility = View.VISIBLE
+                settingButton.setOnClickListener(settingButtonListener)
+            }
+        }
+    }
+
+    private val cancelButtonListener = View.OnClickListener {
+        finish()
+    }
+
+    private val settingButtonListener = View.OnClickListener {
+        startActivity(SettingsActivity::class.java)
+    }
+
+    fun setAppBar(cancelButtonState:Boolean,settingButtonState:Boolean){
+        createAppBar(cancelButtonState,settingButtonState)
+    }
+
     fun startActivity(classAI:Class<*>){
         val intent = Intent(this,classAI)
         startActivity(intent)
     }
 
-    fun getCurrentFragment():CovidFragment<*,*>?{
+    private fun getCurrentFragment():CovidFragment<*,*>?{
         val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
         if (currentFragment != null){
-            return  currentFragment as CovidFragment<*, *>
+            return if (currentFragment is CovidFragment<*, *>){
+                currentFragment as CovidFragment<*, *>
+            }else{
+                finish()
+                null
+            }
+
         }
         return null
     }
@@ -83,6 +128,19 @@ abstract class CovidActivity<VM:CovidVM,DB:ViewDataBinding>: AppCompatActivity()
     fun addFragment(fragment:CovidFragment<*,*>){
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.replace(getContainer(),fragment,null)
+        fragmentTransaction.commitAllowingStateLoss()
+    }
+
+    fun addSettingFragment(fragment: PreferenceFragmentCompat){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.replace(getContainer(),fragment,null)
+        fragmentTransaction.commitAllowingStateLoss()
+    }
+
+    fun replaceFragment(fragment:CovidFragment<*,*>){
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(getContainer(),fragment,null)
         fragmentTransaction.commitAllowingStateLoss()
     }

@@ -1,12 +1,15 @@
-package com.dag.covidnews.ui.homepage
+package com.dag.covidnews.ui.settingspage
 
 import android.content.Context
+import com.dag.covidnews.R
 import com.dag.covidnews.base.AppConstant
 import com.dag.covidnews.base.CovidVM
 import com.dag.covidnews.entity.country.Country
+import com.dag.covidnews.ui.homepage.HomepageFragmentVS
 import javax.inject.Inject
 
-class HomepageFragmentVM @Inject constructor(val context: Context) :CovidVM() {
+
+class SettingsFragmentVM @Inject constructor(val context: Context):CovidVM() {
 
     fun getList(){
         val list: MutableList<Country> = mutableListOf()
@@ -20,7 +23,6 @@ class HomepageFragmentVM @Inject constructor(val context: Context) :CovidVM() {
             list.add(country[0])
         }
 
-        state.postValue(HomepageFragmentVS.GetListFromPrefs(list))
+        state.postValue(SettingsFragmentVS.GetCountries(list))
     }
-
 }

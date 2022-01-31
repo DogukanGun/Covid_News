@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dag.covidnews.R
 import com.dag.covidnews.base.CovidActivity
+import com.dag.covidnews.base.CovidState
 import com.dag.covidnews.databinding.ActivityMainBinding
+import com.dag.covidnews.ui.homepage.HomepageActivity
 import com.dag.covidnews.ui.onboard.story.StoryFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,8 +23,19 @@ class MainActivity : CovidActivity<MainActivityVM,ActivityMainBinding>(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addFragment(StoryFragment())
+        viewModel?.getCountries()
+
     }
 
+    override fun stateChange(state: CovidState) {
+        when(state){
+            MainActivityVS.StartActivity ->{
+                startActivity(HomepageActivity::class.java)
+            }
+            MainActivityVS.StoryMode ->{
+                addFragment(StoryFragment())
+            }
+        }
+    }
 
 }

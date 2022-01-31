@@ -17,6 +17,10 @@ abstract class CovidFragment<VM:CovidVM,DB:ViewDataBinding>:Fragment() {
 
     abstract fun getVM():VM
 
+    open fun hasBackButton() = false
+
+    open fun hasSettingsButton() = false
+
     protected var viewModel:VM? = null
     protected var binding:DB? = null
 
@@ -26,6 +30,7 @@ abstract class CovidFragment<VM:CovidVM,DB:ViewDataBinding>:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater,getLayout(),container,false)
+
         binding!!.setVariable(BR.viewModel,viewModel)
         (viewModel as CovidVM).let {  vm->
                 if(!vm.state.hasActiveObservers()){
@@ -39,6 +44,9 @@ abstract class CovidFragment<VM:CovidVM,DB:ViewDataBinding>:Fragment() {
 
     }
 
+    private fun setAppBar(){
+        (activity as CovidActivity<*,*>).setAppBar(hasBackButton(),hasSettingsButton())
+    }
     fun startActivityWithValue(classAI: Class<*>,variable:String,parameter: IntentParameter){
         (activity as CovidActivity<*,*>).startActivityWithValue(classAI,variable,parameter)
     }
@@ -46,6 +54,7 @@ abstract class CovidFragment<VM:CovidVM,DB:ViewDataBinding>:Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = getVM()
+        setAppBar()
     }
 
     open fun onStateChange(state:CovidState){
@@ -54,6 +63,10 @@ abstract class CovidFragment<VM:CovidVM,DB:ViewDataBinding>:Fragment() {
 
     fun addFragment(fragment:CovidFragment<*,*>){
         (activity as CovidActivity<*,*>).addFragment(fragment)
+    }
+
+    fun replaceFragment(fragment:CovidFragment<*,*>){
+        (activity as CovidActivity<*,*>).replaceFragment(fragment)
     }
 
     fun startActivity(classAI:Class<*>){

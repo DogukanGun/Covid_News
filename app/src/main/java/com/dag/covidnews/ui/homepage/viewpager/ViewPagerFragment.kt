@@ -1,7 +1,6 @@
 package com.dag.covidnews.ui.homepage.viewpager
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,16 @@ import com.dag.covidnews.R
 import com.dag.covidnews.base.CovidFragment
 import com.dag.covidnews.base.CovidState
 import com.dag.covidnews.databinding.FragmentViewPagerBinding
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
-
+import com.github.mikephil.charting.utils.MPPointF
+import com.github.mikephil.charting.utils.ColorTemplate
+import android.graphics.Color
+import android.graphics.Typeface
 
 @AndroidEntryPoint
 @WithFragmentBindings
@@ -33,19 +38,94 @@ class ViewPagerFragment : CovidFragment<ViewPagerVM,FragmentViewPagerBinding>() 
         savedInstanceState: Bundle?
     ): View? {
         val view =  super.onCreateView(inflater, container, savedInstanceState)
-        countryName?.let {
-            viewModel?.getList(it)
-        }
+
+        setupPieChart()
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        countryName?.let {
+            viewModel?.getList(it)
+        }
+    }
 
+
+    private fun setupPieChart(){
+        binding?.chart?.let {
+            it.setExtraOffsets(5F, 20F, 5F, 20F)
+
+            it.dragDecelerationFrictionCoef = 0.95f
+
+            it.isDrawHoleEnabled = true
+            it.setHoleColor(Color.WHITE)
+
+            it.setTransparentCircleColor(Color.WHITE)
+            it.setTransparentCircleAlpha(110)
+
+            it.holeRadius = 58f
+            it.transparentCircleRadius = 61f
+
+            it.setDrawCenterText(true)
+
+            it.rotationAngle = 0F
+            it.isRotationEnabled = false
+            it.isHighlightPerTapEnabled = true
+        }
+
+    }
     override fun onStateChange(state: CovidState) {
         when(state){
             is ViewPagerVS.SetViewPagerValues ->{
-                print(state.response)
+                binding?.chart?.let { chart->
+                    val spaceForBar = 10f
+                    val list = state.response[0]
+                    val pieChartList = arrayListOf<PieEntry>()
+                    list.deaths?.toFloat()?.let {
+                        val pieEntryConfirmed = PieEntry(it,spaceForBar)
+                        pieEntryConfirmed.label = getString(R.string.deaths)
+                        pieChartList.add(pieEntryConfirmed)
+                    }
+                    list.recovered?.toFloat()?.let {
+                        val pieEntryConfirmed = PieEntry(it,spaceForBar)
+                        pieEntryConfirmed.label = getString(R.string.recovered)
+                        pieChartList.add(pieEntryConfirmed)
+                    }
+
+                    val dataset = PieDataSet(pieChartList,list.country)
+                    dataset.sliceSpace = 30f
+                    dataset.iconsOffset = MPPointF(0F, 40F)
+                    dataset.selectionShift = 50f
+
+                    val colors: ArrayList<Int> = ArrayList()
+
+                    for (c in ColorTemplate.VORDIPLOM_COLORS) colors.add(c)
+
+                    for (c in ColorTemplate.JOYFUL_COLORS) colors.add(c)
+
+                    for (c in ColorTemplate.COLORFUL_COLORS) colors.add(c)
+
+                    for (c in ColorTemplate.LIBERTY_COLORS) colors.add(c)
+
+                    for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
+
+                    colors.add(ColorTemplate.getHoloBlue())
+
+                    dataset.colors = colors
+                    val data = PieData(dataset)
+                    data.setValueTypeface(Typeface.MONOSPACE)
+                    data.setValueTextSize(11f)
+                    data.setValueTextColor(Color.BLACK)
+                    chart.data = data
+                    chart.setEntryLabelColor(Color.BLACK)
+                    chart.notifyDataSetChanged()
+                    chart.invalidate()
+                }
+                binding?.titleTV?.text = state.response[0].country.uppercase()
             }
         }
     }
+
+    override fun hasSettingsButton(): Boolean = true
 
 }

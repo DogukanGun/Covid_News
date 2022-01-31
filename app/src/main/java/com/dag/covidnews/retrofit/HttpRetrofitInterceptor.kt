@@ -1,6 +1,5 @@
 package com.dag.covidnews.retrofit
 
-import com.dag.covidnews.base.AppConstant
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
