@@ -18,7 +18,7 @@ class HttpRetrofitInterceptor:Interceptor {
         val buffer = Buffer()
         request.body?.writeTo(buffer)
         return request.newBuilder()
-            .header("X-RapidAPI-Host","covid-19-data.p.rapidapi.com")
+            .header("X-RapidAPI-Host","covid-193.p.rapidapi.com")
             .header("X-RapidAPI-Key","")
             .method(request.method,request.body)
             .build()

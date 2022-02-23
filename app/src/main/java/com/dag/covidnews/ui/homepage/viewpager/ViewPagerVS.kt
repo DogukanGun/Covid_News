@@ -5,5 +5,5 @@ import com.dag.covidnews.entity.country.CountryInformation
 
 sealed class ViewPagerVS: CovidState {
 
-    class SetViewPagerValues(val response:List<CountryInformation>):ViewPagerVS()
+    class SetViewPagerValues(val response:CountryInformation):ViewPagerVS()
 }

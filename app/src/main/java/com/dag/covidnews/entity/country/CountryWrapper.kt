@@ -1,3 +1,4 @@
 package com.dag.covidnews.entity.country
 
-data class CountryWrapper (val list: CountryInformation)
+data class CountryWrapper (val name: String,
+                           var isSelected:Int)

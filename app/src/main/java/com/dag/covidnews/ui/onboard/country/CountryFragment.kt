@@ -16,6 +16,7 @@ import com.dag.covidnews.base.CovidState
 import com.dag.covidnews.databinding.FragmentCountryBinding
 import com.dag.covidnews.entity.country.Country
 import com.dag.covidnews.entity.country.CountryEntity
+import com.dag.covidnews.entity.country.CountryWrapper
 import com.dag.covidnews.entity.intent.IntentParameter
 import com.dag.covidnews.ui.homepage.HomepageActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,11 +59,11 @@ class CountryFragment : CovidFragment<CountryVM,FragmentCountryBinding>() {
                 }
             }
             is CountryVS.SortList ->{
-                val list = adapter.list.filter { country->
+                val list = adapter.countryList.filter { country->
                     country.isSelected == 1
                 }
                 val countryIdList = Country.values().filter { country ->
-                    list.map { it.name?.lowercase() }.contains(country.name.lowercase())
+                    list.map { it.name.lowercase() }.contains(country.name.lowercase())
                 }.map { it.id }
                 val prefs = context?.getSharedPreferences(AppConstant.PREFS_FILE_NAME,Context.MODE_PRIVATE)
                 val editor = prefs?.edit()
@@ -75,7 +76,7 @@ class CountryFragment : CovidFragment<CountryVM,FragmentCountryBinding>() {
     }
 
     private val itemListener = object : CountryListener{
-        override fun itemClicked(item: CountryEntity) {
+        override fun itemClicked(item: CountryWrapper) {
         }
     }
 }

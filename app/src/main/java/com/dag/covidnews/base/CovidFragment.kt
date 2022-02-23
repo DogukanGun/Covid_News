@@ -57,8 +57,16 @@ abstract class CovidFragment<VM:CovidVM,DB:ViewDataBinding>:Fragment() {
         setAppBar()
     }
 
+    fun finish(){
+        (activity as CovidActivity<*,*>).finish()
+    }
+
     open fun onStateChange(state:CovidState){
 
+    }
+
+    fun setLanguage(language:String){
+        (activity as CovidActivity<*,*>).setLocale(requireContext(),language)
     }
 
     fun addFragment(fragment:CovidFragment<*,*>){

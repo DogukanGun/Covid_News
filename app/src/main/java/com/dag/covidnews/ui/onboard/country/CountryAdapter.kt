@@ -12,30 +12,34 @@ import com.dag.covidnews.R
 import com.dag.covidnews.databinding.ItemCountryBinding
 import com.dag.covidnews.entity.country.Country
 import com.dag.covidnews.entity.country.CountryEntity
+import com.dag.covidnews.entity.country.CountryWrapper
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class CountryAdapter(var context:Context,val list:List<CountryEntity>):RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
+class CountryAdapter(var context:Context,val list:List<String>):RecyclerView.Adapter<CountryAdapter.CountryViewHolder>() {
 
 
     var listener:CountryListener? = null
+    var countryList = mutableListOf<CountryWrapper>()
 
     inner class CountryViewHolder(val binding:ItemCountryBinding): RecyclerView.ViewHolder(binding.root) {
 
         @SuppressLint("UseCompatLoadingForDrawables")
-        fun bindRow(item:CountryEntity){
+        fun bindRow(item:String){
             binding.apply {
-                countryNameTV.text = item.name
+                countryNameTV.text = item
+                val country = CountryWrapper(item,0)
+                countryList.add(country)
                 root.setOnClickListener {
-                    listener?.itemClicked(item)
-                    if (item.isSelected == 1){
+                    listener?.itemClicked(country)
+                    if (country.isSelected == 1){
                         binding.selectedRowIV.visibility = View.INVISIBLE
                         wrapper.background = null
-                        item.isSelected = 0
+                        country.isSelected = 0
                     }else{
                         binding.selectedRowIV.visibility = View.VISIBLE
                         wrapper.background = context.getDrawable(R.drawable.ri_recyclerview_item_background)
-                        item.isSelected = 1
+                        country.isSelected = 1
                     }
                 }
             }

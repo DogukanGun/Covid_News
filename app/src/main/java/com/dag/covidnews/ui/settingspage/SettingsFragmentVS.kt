@@ -5,4 +5,5 @@ import com.dag.covidnews.entity.country.Country
 
 sealed class SettingsFragmentVS:CovidState {
     class GetCountries(val list: List<Country>):SettingsFragmentVS()
+    object SaveContent:SettingsFragmentVS()
 }

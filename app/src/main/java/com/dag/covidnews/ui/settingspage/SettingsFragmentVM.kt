@@ -11,6 +11,10 @@ import javax.inject.Inject
 
 class SettingsFragmentVM @Inject constructor(val context: Context):CovidVM() {
 
+    fun saveContent(){
+        state.postValue(SettingsFragmentVS.SaveContent)
+    }
+
     fun getList(){
         val list: MutableList<Country> = mutableListOf()
         val prefs = context.getSharedPreferences(AppConstant.PREFS_FILE_NAME, Context.MODE_PRIVATE)

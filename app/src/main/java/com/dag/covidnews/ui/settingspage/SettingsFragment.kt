@@ -1,11 +1,13 @@
 package com.dag.covidnews.ui.settingspage
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.dag.covidnews.R
+import com.dag.covidnews.base.AppConstant
 import com.dag.covidnews.base.CovidFragment
 import com.dag.covidnews.base.CovidState
 import com.dag.covidnews.databinding.FragmentSettingsBinding
@@ -14,10 +16,6 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.WithFragmentBindings
 import javax.inject.Inject
-
-
-
-
 
 @AndroidEntryPoint
 @WithFragmentBindings
@@ -31,6 +29,8 @@ class SettingsFragment : CovidFragment<SettingsFragmentVM,FragmentSettingsBindin
     override fun getVM(): SettingsFragmentVM = settingsFragmentVM
 
     override fun hasBackButton(): Boolean = true
+
+    private var currentLanguage = "en"
 
 
     override fun onCreateView(
@@ -56,9 +56,12 @@ class SettingsFragment : CovidFragment<SettingsFragmentVM,FragmentSettingsBindin
                     setCountry(index)
                 }
             }
+            SettingsFragmentVS.SaveContent ->{
+                setLanguage(currentLanguage)
+                 finish()
+            }
         }
     }
-
     private fun setCountry(index:Country){
         when(index){
             Country.USA ->{
@@ -93,7 +96,6 @@ class SettingsFragment : CovidFragment<SettingsFragmentVM,FragmentSettingsBindin
                 R.drawable.bg_radio_group_selected)
             binding?.turkishButtonBTN?.background =
                 ContextCompat.getDrawable(requireActivity(),R.drawable.bg_radio_button_left_button_not_selected)
-
         }
 
 

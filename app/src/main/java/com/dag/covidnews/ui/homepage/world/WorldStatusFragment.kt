@@ -27,6 +27,11 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.LargeValueFormatter
 
 import android.R.attr.data
+import android.content.Context
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import com.dag.covidnews.base.AppConstant
+import com.dag.covidnews.entity.country.Country
 
 @AndroidEntryPoint
 @WithFragmentBindings
@@ -46,7 +51,8 @@ class WorldStatusFragment : CovidFragment<WorldStatusVM,FragmentWorldStatusBindi
     ): View? {
         val view =  super.onCreateView(inflater, container, savedInstanceState)
         setBarChart()
-        viewModel?.getWorldData()
+        viewModel?.getWorldData("")
+        setSpinner()
         return view
     }
 
@@ -59,12 +65,29 @@ class WorldStatusFragment : CovidFragment<WorldStatusVM,FragmentWorldStatusBindi
         }
     }
 
+    private fun setSpinner(){
+        val prefs = context?.getSharedPreferences(AppConstant.PREFS_FILE_NAME, Context.MODE_PRIVATE)
+        val valueByNumber = prefs?.getString(AppConstant.PREFS_COUNTRY_KEY,"")?.split(",")
+        val value = mutableListOf<String>()
+        valueByNumber?.forEach {
+           value.add(Country.values()[it.replace(" ","").toInt()].name)
+        }
+        binding?.countries?.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_expandable_list_item_1,value.toList())
+        binding?.countries?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel?.getWorldData(p0?.getItemAtPosition(p2) as String)
+            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                viewModel?.getWorldData(value[0])
+            }
+        }
+    }
+
     private fun setData(countryInformation: CountryInformation){
         val entries1 = arrayListOf<BarEntry>()
-        val spaceForBar = 10f
-
-        countryInformation.confirmed?.toFloat()?.let {
-            val element = BarEntry(1F,it)
+        countryInformation.cases.total.toFloat().apply {
+            val element = BarEntry(1F,this)
             entries1.add(element)
         }
         val barDataSet1 = BarDataSet(entries1,getString(R.string.confirmed))
@@ -72,8 +95,8 @@ class WorldStatusFragment : CovidFragment<WorldStatusVM,FragmentWorldStatusBindi
 
         val entries2 = arrayListOf<BarEntry>()
 
-        countryInformation.deaths?.toFloat()?.let {
-            val element = BarEntry(10F,it)
+        countryInformation.deaths.total.toFloat().apply {
+            val element = BarEntry(10F,this)
             entries2.add(element)
         }
         val barDataSet2 = BarDataSet(entries2,getString(R.string.deaths))
@@ -81,8 +104,8 @@ class WorldStatusFragment : CovidFragment<WorldStatusVM,FragmentWorldStatusBindi
 
         val entries3 = arrayListOf<BarEntry>()
 
-        countryInformation.recovered?.toFloat()?.let {
-            val element = BarEntry(20F,it)
+        countryInformation.tests.total.toFloat().apply {
+            val element = BarEntry(20F,this)
             entries3.add(element)
         }
         val barDataSet3 = BarDataSet(entries3,getString(R.string.recovered))

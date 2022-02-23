@@ -16,10 +16,12 @@ class CountryVM @Inject constructor(val apiSource: ApiSource) :CovidVM(){
             if (response.isSuccessful){
                 var list = response.body()
                 if (list!=null){
-                    list = list.filter { country->
-                        Country.values().map { it.name.lowercase() }.contains(country.name?.lowercase())
+                    var newList = list.response?.filter { country->
+                        Country.values().map { it.name.lowercase() }.contains(country.lowercase())
                     }
-                    state.postValue(CountryVS.SetCountries(list))
+                    newList?.let {
+                        state.postValue(CountryVS.SetCountries(it))
+                    }
                 }
             }
         }

@@ -1,8 +1,8 @@
 package com.dag.covidnews.entity.country
 
 data class CountryEntity (
-    var name:String? = "",
-    var alpha2code:String? = "",
-    var alpha3code:String? = "",
+    var get:String = "",
+    var results:Int = 0,
+    var response:List<String>? = null,
     var isSelected:Int = 0,
 )

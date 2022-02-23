@@ -12,10 +12,12 @@ class ViewPagerVM @Inject constructor(val apiSource: ApiSource) :CovidVM() {
 
     fun getList(countryName: String){
         viewModelScope.launch(Dispatchers.IO) {
-            val response = apiSource.getCountryInformation(countryName.lowercase())
-            if (response.isSuccessful){
-                response.body()?.let {
-                    state.postValue(ViewPagerVS.SetViewPagerValues(it))
+            if(countryName.isBlank().not()){
+                val response = apiSource.getCountryInformation(countryName.lowercase())
+                if (response.isSuccessful){
+                    response.body()?.response?.let {
+                        state.postValue(ViewPagerVS.SetViewPagerValues(it[0]))
+                    }
                 }
             }
         }

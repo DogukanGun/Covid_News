@@ -79,15 +79,15 @@ class ViewPagerFragment : CovidFragment<ViewPagerVM,FragmentViewPagerBinding>() 
             is ViewPagerVS.SetViewPagerValues ->{
                 binding?.chart?.let { chart->
                     val spaceForBar = 10f
-                    val list = state.response[0]
+                    val list = state.response
                     val pieChartList = arrayListOf<PieEntry>()
-                    list.deaths?.toFloat()?.let {
-                        val pieEntryConfirmed = PieEntry(it,spaceForBar)
+                    list.deaths.total.toFloat().apply {
+                        val pieEntryConfirmed = PieEntry(this,spaceForBar)
                         pieEntryConfirmed.label = getString(R.string.deaths)
                         pieChartList.add(pieEntryConfirmed)
                     }
-                    list.recovered?.toFloat()?.let {
-                        val pieEntryConfirmed = PieEntry(it,spaceForBar)
+                    list.cases.total.toFloat().apply {
+                        val pieEntryConfirmed = PieEntry(this,spaceForBar)
                         pieEntryConfirmed.label = getString(R.string.recovered)
                         pieChartList.add(pieEntryConfirmed)
                     }
@@ -121,7 +121,7 @@ class ViewPagerFragment : CovidFragment<ViewPagerVM,FragmentViewPagerBinding>() 
                     chart.notifyDataSetChanged()
                     chart.invalidate()
                 }
-                binding?.titleTV?.text = state.response[0].country.uppercase()
+                binding?.titleTV?.text = state.response.country.uppercase()
             }
         }
     }

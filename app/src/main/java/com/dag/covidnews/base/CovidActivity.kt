@@ -1,6 +1,12 @@
 package com.dag.covidnews.base
 
+import android.annotation.TargetApi
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.res.Configuration
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -10,10 +16,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 import com.dag.covidnews.BR
 import com.dag.covidnews.R
 import com.dag.covidnews.entity.intent.IntentParameter
 import com.dag.covidnews.ui.settingspage.SettingsActivity
+import java.util.*
 
 
 abstract class CovidActivity<VM:CovidVM,DB:ViewDataBinding>: AppCompatActivity() {
@@ -74,6 +82,44 @@ abstract class CovidActivity<VM:CovidVM,DB:ViewDataBinding>: AppCompatActivity()
 
     fun setAppBar(cancelButtonState:Boolean,settingButtonState:Boolean){
         createAppBar(cancelButtonState,settingButtonState)
+    }
+
+    fun setLocale(context: Context, language: String): Context? {
+        persist(context, language)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            updateResources(context, language)
+        } else updateResourcesLegacy(context, language)
+    }
+
+    private fun persist(context: Context, language: String) {
+        val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = preferences.edit()
+        editor.putString(AppConstant.SELECTED_LANGUAGE, language)
+        editor.apply()
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun updateResources(context: Context, language: String): Context? {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val configuration: Configuration = context.resources.configuration
+        configuration.setLocale(locale)
+        configuration.setLayoutDirection(locale)
+        return context.createConfigurationContext(configuration)
+    }
+
+
+    private fun updateResourcesLegacy(context: Context, language: String): Context? {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val resources: Resources = context.resources
+        val configuration: Configuration = resources.getConfiguration()
+        configuration.locale = locale
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            configuration.setLayoutDirection(locale)
+        }
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics())
+        return context
     }
 
     fun startActivity(classAI:Class<*>){
